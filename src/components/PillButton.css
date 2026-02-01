@@ -1,0 +1,62 @@
+.pill-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #b0bec5;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.pill-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--button-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 50px;
+}
+
+.pill-button:hover {
+    border-color: var(--button-color);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--button-glow);
+}
+
+.pill-button:hover::before {
+    opacity: 0.15;
+}
+
+.pill-button.active {
+    background: var(--button-color);
+    border-color: var(--button-color);
+    color: #ffffff;
+    box-shadow: 0 4px 20px var(--button-glow);
+}
+
+.pill-button.active::before {
+    opacity: 0;
+}
+
+.pill-icon {
+    font-size: 1rem;
+}
+
+.pill-label {
+    position: relative;
+    z-index: 1;
+}
