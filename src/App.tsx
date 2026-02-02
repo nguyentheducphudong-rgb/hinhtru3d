@@ -118,13 +118,6 @@ function App() {
             </div>
           </div>
 
-          {/* Hiển thị % unfold khi đang khai triển */}
-          {unfoldProgress > 0 && (
-            <div className="unfold-indicator">
-              <span className="unfold-label">Khai triển</span>
-              <span className="unfold-value">{unfoldProgress}%</span>
-            </div>
-          )}
         </div>
 
         {/* Bottom Status Bar - Thanh thông số bên dưới */}

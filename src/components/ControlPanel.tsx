@@ -112,7 +112,7 @@ function ControlPanel({
                     <div className="slider-header">
                         <label className="slider-label">🌀 Mở khối / Trải hình</label>
                         <div className="slider-input-wrapper">
-                            <span className="slider-input">{unfoldProgress}%</span>
+                            <span className="slider-input">{Math.round(unfoldProgress)}%</span>
                         </div>
                     </div>
                     <div className="slider-range-wrapper">
