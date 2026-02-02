@@ -7,6 +7,9 @@ import './App.css';
 type ComponentType = 'none' | 'vertex' | 'edge' | 'face' | 'label';
 
 function App() {
+  // State quản lý Control Panel trên mobile
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+
   // State cho các tham số hình trụ
   const [radius, setRadius] = useState(2); // cm
   const [height, setHeight] = useState(4); // cm
@@ -60,66 +63,76 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      {/* Control Panel - Khu vực điều khiển (Bên trái) */}
-      <div className="panel-container">
-        <ControlPanel
-          radius={radius}
-          height={height}
-          unfoldProgress={unfoldProgress}
-          opacity={opacity}
-          activeComponent={activeComponent}
-          exploreMode={exploreMode}
-          showVolume={showVolume}
-          isAutoPlaying={isAutoPlaying}
-          playSpeed={playSpeed}
-          onRadiusChange={setRadius}
-          onHeightChange={setHeight}
-          onUnfoldProgressChange={setUnfoldProgress}
-          onOpacityChange={setOpacity}
-          onActiveComponentChange={setActiveComponent}
-          onExploreModeChange={setExploreMode}
-          onShowVolumeChange={setShowVolume}
-          onAutoPlayChange={setIsAutoPlaying}
-          onPlaySpeedChange={setPlaySpeed}
-          onResetCamera={handleResetCamera}
-        />
-      </div>
+    <>
+      <div className="app">
+        {/* Mobile Toggle Button */}
+        <button
+          className={`mobile-toggle-btn ${isPanelOpen ? 'active' : ''}`}
+          onClick={() => setIsPanelOpen(!isPanelOpen)}
+        >
+          {isPanelOpen ? '✕' : '⚙️'}
+        </button>
 
-      {/* Canvas 3D - Khu vực hiển thị hình trụ */}
-      <div className="canvas-container">
-        <Scene
-          radius={radius}
-          height={height}
-          unfoldProgress={unfoldProgress}
-          opacity={opacity}
-          activeComponent={activeComponent}
-          showLabels={activeComponent === 'label' || exploreMode}
-          exploreMode={exploreMode}
-          onResetCamera={handleResetCamera}
-        />
-
-        {/* Overlay hướng dẫn (Góc trên phải) */}
-        <div className="canvas-overlay" style={{ bottom: 'auto', top: '1.5rem', right: '1.5rem', left: 'auto', transform: 'none' }}>
-          <div className="instruction-badge">
-            🖱️ Kéo để xoay • Cuộn để zoom
-          </div>
+        {/* Control Panel - Khu vực điều khiển (Bên trái) */}
+        <div className={`panel-container ${isPanelOpen ? 'open' : ''}`}>
+          <ControlPanel
+            radius={radius}
+            height={height}
+            unfoldProgress={unfoldProgress}
+            opacity={opacity}
+            activeComponent={activeComponent}
+            exploreMode={exploreMode}
+            showVolume={showVolume}
+            isAutoPlaying={isAutoPlaying}
+            playSpeed={playSpeed}
+            onRadiusChange={setRadius}
+            onHeightChange={setHeight}
+            onUnfoldProgressChange={setUnfoldProgress}
+            onOpacityChange={setOpacity}
+            onActiveComponentChange={setActiveComponent}
+            onExploreModeChange={setExploreMode}
+            onShowVolumeChange={setShowVolume}
+            onAutoPlayChange={setIsAutoPlaying}
+            onPlaySpeedChange={setPlaySpeed}
+            onResetCamera={handleResetCamera}
+          />
         </div>
 
-        {/* Hiển thị % unfold khi đang khai triển */}
-        {unfoldProgress > 0 && (
-          <div className="unfold-indicator">
-            <span className="unfold-label">Khai triển</span>
-            <span className="unfold-value">{unfoldProgress}%</span>
-          </div>
-        )}
-      </div>
+        {/* Canvas 3D - Khu vực hiển thị hình trụ */}
+        <div className="canvas-container">
+          <Scene
+            radius={radius}
+            height={height}
+            unfoldProgress={unfoldProgress}
+            opacity={opacity}
+            activeComponent={activeComponent}
+            showLabels={activeComponent === 'label' || exploreMode}
+            exploreMode={exploreMode}
+            onResetCamera={handleResetCamera}
+          />
 
-      {/* Bottom Status Bar - Thanh thông số bên dưới */}
-      <div className="bottom-status-container">
-        <BottomStatus radius={radius} height={height} />
+          {/* Overlay hướng dẫn (Góc trên phải) */}
+          <div className="canvas-overlay" style={{ bottom: 'auto', top: '1.5rem', right: '1.5rem', left: 'auto', transform: 'none' }}>
+            <div className="instruction-badge">
+              🖱️ Kéo để xoay • Cuộn để zoom
+            </div>
+          </div>
+
+          {/* Hiển thị % unfold khi đang khai triển */}
+          {unfoldProgress > 0 && (
+            <div className="unfold-indicator">
+              <span className="unfold-label">Khai triển</span>
+              <span className="unfold-value">{unfoldProgress}%</span>
+            </div>
+          )}
+        </div>
+
+        {/* Bottom Status Bar - Thanh thông số bên dưới */}
+        <div className="bottom-status-container">
+          <BottomStatus radius={radius} height={height} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

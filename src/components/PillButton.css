@@ -60,3 +60,17 @@
     position: relative;
     z-index: 1;
 }
+
+/* MOBILE COMPACT STYLES */
+@media (max-width: 768px) {
+    .pill-button {
+        gap: 0.3rem;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.6rem;
+        border-width: 1px;
+    }
+
+    .pill-icon {
+        font-size: 0.75rem;
+    }
+}

@@ -101,3 +101,47 @@
   color: #546e7a;
   font-weight: 500;
 }
+
+/* MOBILE COMPACT STYLES */
+@media (max-width: 768px) {
+  .slider-container {
+    margin-bottom: 0.4rem;
+  }
+
+  .slider-header {
+    margin-bottom: 0.15rem;
+  }
+
+  .slider-label {
+    font-size: 0.6rem;
+  }
+
+  .slider-input {
+    width: 40px;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.2rem;
+  }
+
+  .slider-range-wrapper {
+    height: 14px;
+  }
+
+  .slider-range {
+    height: 3px;
+  }
+
+  .slider-range::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+  }
+
+  .slider-range::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+  }
+
+  .slider-bounds {
+    font-size: 0.5rem;
+    margin-top: 0.1rem;
+  }
+}

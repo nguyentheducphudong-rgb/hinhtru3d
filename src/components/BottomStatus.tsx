@@ -54,18 +54,42 @@ export default function BottomStatus({ radius, height }: BottomStatusProps) {
             {/* Credit & Controls */}
             <div className="status-right" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginLeft: 'auto' }}>
                 <div className="status-credit">
-                    <span>Tạo bởi thầy Đức- Giáo viên yêu công nghệ</span>
+                    <span>Phát triển bởi: @ thầy Thế Đức - Giáo viên yêu công nghệ</span>
                 </div>
 
                 <button
                     className="fullscreen-btn"
                     onClick={() => {
-                        if (!document.fullscreenElement) {
-                            document.documentElement.requestFullscreen();
-                        } else {
-                            if (document.exitFullscreen) {
-                                document.exitFullscreen();
+                        const elem = document.documentElement as any;
+
+                        try {
+                            if (!document.fullscreenElement) {
+                                // Try standard API first
+                                if (elem.requestFullscreen) {
+                                    elem.requestFullscreen();
+                                }
+                                // iOS Safari fallback
+                                else if (elem.webkitRequestFullscreen) {
+                                    elem.webkitRequestFullscreen();
+                                }
+                                // Older webkit
+                                else if (elem.webkitEnterFullscreen) {
+                                    elem.webkitEnterFullscreen();
+                                }
+                                // Alert if not supported
+                                else {
+                                    alert('Trình duyệt này không hỗ trợ toàn màn hình. Thử thêm trang vào màn hình chính (Add to Home Screen) trên iOS.');
+                                }
+                            } else {
+                                if (document.exitFullscreen) {
+                                    document.exitFullscreen();
+                                } else if ((document as any).webkitExitFullscreen) {
+                                    (document as any).webkitExitFullscreen();
+                                }
                             }
+                        } catch (err) {
+                            console.error('Fullscreen error:', err);
+                            alert('Không thể bật toàn màn hình. Trình duyệt này có thể không hỗ trợ.');
                         }
                     }}
                     title="Toàn màn hình"

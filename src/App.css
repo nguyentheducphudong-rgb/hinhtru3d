@@ -1,9 +1,10 @@
 .app {
   display: grid;
   grid-template-columns: 300px 1fr;
-  grid-template-rows: 1fr 60px;
-  /* Canvas: 1fr, Bottom Bar: 60px */
-  height: 100vh;
+  grid-template-rows: 1fr;
+  /* Single row, footer is now fixed */
+  height: calc(100vh - 50px);
+  /* Leave space for fixed footer */
   width: 100vw;
   overflow: hidden;
   background: #0a1628;
@@ -12,8 +13,8 @@
 /* Sidebar Panel */
 .panel-container {
   grid-column: 1;
-  grid-row: 1 / span 2;
-  /* Span full height */
+  grid-row: 1;
+  /* Single row now */
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -31,14 +32,15 @@
   overflow: hidden;
 }
 
-/* Bottom Status Bar */
+/* Bottom Status Bar - FIXED at bottom */
 .bottom-status-container {
-  grid-column: 2;
-  grid-row: 2;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  height: 100%;
-  z-index: 30;
-  position: relative;
+  height: 50px;
+  z-index: 100;
 }
 
 .canvas-overlay {
@@ -99,49 +101,89 @@
   text-shadow: 0 2px 10px rgba(251, 140, 0, 0.3);
 }
 
+/* Mobile Toggle Button */
+.mobile-toggle-btn {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.mobile-toggle-btn.active {
+  background: rgba(239, 83, 80, 0.9);
+  /* Red close button */
+  transform: rotate(90deg);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
 
   /* Tablet Landscape / Small Laptops */
   .app {
     grid-template-columns: 250px 1fr;
-    /* Reduce sidebar width */
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
-  /* Tablet Portrait & Mobile */
+  /* Tablet Portrait & Mobile - FIXED SPLIT VIEW */
   .app {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr 60px;
-    /* Header/Panel, Canvas, Footer */
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 50px);
+    /* Fixed height, no scrolling for app container */
+    min-height: calc(100vh - 50px);
+    overflow: hidden;
   }
 
-  /* Sidebar logic for mobile/tablet portrait */
+  .mobile-toggle-btn {
+    display: none;
+    /* Hide gear button - controls are always visible in portrait */
+  }
+
+  /* Control Panel - scrollable at top with max height */
   .panel-container {
-    grid-column: 1;
-    grid-row: 1;
-    width: 100%;
-    height: auto;
-    max-height: 40vh;
-    /* Limit height so Canvas is visible */
-    overflow-y: auto;
     position: relative;
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 50;
+    width: 100%;
+    max-height: 45vh;
+    /* Maximum 45% of viewport height */
+    height: auto;
+    flex-shrink: 0;
+    background: rgba(10, 22, 40, 0.98);
+    border-bottom: 1px solid rgba(77, 208, 225, 0.3);
+    overflow-y: auto;
+    /* Enable scrolling within panel */
+    overflow-x: hidden;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
   }
 
+  /* Canvas below controls - takes remaining space */
   .canvas-container {
-    grid-column: 1;
-    grid-row: 2;
+    flex: 1;
+    min-height: 55vh;
+    /* Minimum 55% of viewport for 3D canvas */
+    max-height: calc(100vh - 50px);
+    width: 100%;
+    position: relative;
   }
 
-  .bottom-status-container {
-    grid-column: 1;
-    grid-row: 3;
-  }
+  /* Footer is already fixed, no changes needed */
 }
 
 @media (max-width: 600px) {
@@ -161,5 +203,40 @@
 
   .unfold-value {
     font-size: 1.2rem;
+  }
+}
+
+/* Landscape orientation on phones/tablets */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app {
+    grid-template-rows: 1fr 45px;
+    /* Smaller footer in landscape */
+  }
+
+  .mobile-toggle-btn {
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .instruction-badge {
+    display: none;
+    /* Hide instruction to save space */
+  }
+
+  .unfold-indicator {
+    bottom: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .unfold-label {
+    font-size: 0.55rem;
+  }
+
+  .unfold-value {
+    font-size: 1rem;
   }
 }
